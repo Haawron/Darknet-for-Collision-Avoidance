@@ -10,7 +10,6 @@
 *.lib
 *.dylib
 mnist/
-data/
 caffe/
 grasp/
 images/
@@ -18,7 +17,6 @@ opencv/
 convnet/
 decaf/
 submission/
-cfg/
 build/darknet/*
 build_*/
 !build/darknet/YoloWrapper.cs
@@ -59,7 +57,6 @@ darknet
 *.mp4
 *.avi
 !chart*
-!data/
 data/airshow/
 data/simulations/
 data/DBPAS_train/
@@ -68,3 +65,4 @@ data/DBPAS_train3/
 results/
 weights/
 *.zip
+!data/labels/*.png
