@@ -55,3 +55,16 @@ include/darknet/
 uselib
 uselib_track
 darknet
+
+*.mp4
+*.avi
+!chart*
+!data/
+data/airshow/
+data/simulations/
+data/DBPAS_train/
+data/DBPAS_train2/
+data/DBPAS_train3/
+results/
+weights/
+*.zip
