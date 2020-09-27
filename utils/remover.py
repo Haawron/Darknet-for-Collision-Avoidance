@@ -1,6 +1,6 @@
 import glob, os
 
 
-for path in glob.glob('data/DBPAS_train3/*_c*'):
+for path in glob.glob('data/simulations/images/*_c*') + glob.glob('data/simulations/labels/*_c*'):
     os.remove(path)
     
