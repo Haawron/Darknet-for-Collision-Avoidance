@@ -12,18 +12,14 @@ print(os.getcwd())
 
 import time
 t0 = time.time()
-image_paths = list(sorted(
+paths = list(sorted(
     # exclude cropped images already
     map(lambda imagepath: imagepath[:-4],  # drop out the expansion .jpg
-        set(glob.glob(os.path.join('images', '*.jpg')))
-        - set(glob.glob(os.path.join('images', '*x*.jpg')))
+        set(glob.glob('*.jpg'))-set(glob.glob('*x*.jpg')))
     )
-))
-label_paths = [os.path.join('labels', image_path.split(os.sep)[-1]) for image_path in image_paths]
+)
 
-assert len(image_paths) == len(label_paths), '# of images and labels are different!'
-
-total = len(image_paths) 
+total = len(paths) 
 sizes = [(500, 500), (416, 416), (208, 208), (160, 160)]
 ix, iy = 1920//2, 1080//2  # the position of the intruder (fixed while simulated)
 
@@ -32,11 +28,11 @@ clip = lambda r: min(1, max(0, r))  # clip(r, -1, 1)
 
 
 def work(id, start, end):
-    subpaths = zip(image_paths[start:end], label_paths[start:end])
+    subpaths = paths[start:end]
     print(f'Thread {id:02d} start: {start}, end: {end}, # {end-start}')
-    for i, (image_path, label_path) in enumerate(subpaths):
+    for i, path in enumerate(subpaths):
         n = 0  # just to count
-        with open(label_path+'.txt', 'r') as f:
+        with open(path+'.txt', 'r') as f:
             # data: [label, px, py, w, h]  px, .., h are in [0, 1)
             data = list(map(float, list(csv.reader(f, delimiter=' '))[0]))
             bx, by = int(data[-2]*1920), int(data[-1]*1080)  # float to pixel
@@ -54,10 +50,10 @@ def work(id, start, end):
                 # select the area within [.1w, .9w) X [.1h, .9h)
                 cx = random.randrange(*minmax(ix-(sx-bx*.8)//2, ix+(sx-bx*.8)//2))
                 cy = random.randrange(*minmax(iy-(sy-by*.8)//2, iy+(sy-by*.8)//2))
-                image = cv2.imread(image_path+'.jpg')
+                image = cv2.imread(path+'.jpg')
                 cropped = image[int(cy-sy/2):int(cy+sy/2), int(cx-sx/2):int(cx+sx/2)]
-                crop_image_path = image_path+f'_c{n:02d}_{sx:.0f}x{sy:.0f}.jpg'  # c as cropped
-                crop_label_path = label_path+f'_c{n:02d}_{sx:.0f}x{sy:.0f}.txt'
+                crop_image_path = path+f'_c{n:02d}_{sx:.0f}x{sy:.0f}.jpg'  # c as cropped
+                crop_label_path = path+f'_c{n:02d}_{sx:.0f}x{sy:.0f}.txt'
                 
                 # Cropped too small => crop again
                 if cropped.shape[0] < 100 or cropped.shape[1] < 100:
