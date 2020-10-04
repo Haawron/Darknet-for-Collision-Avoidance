@@ -38,7 +38,7 @@ def work(id, start, end):
             bx, by = int(data[-2]*1920), int(data[-1]*1080)  # float to pixel
         for _sx, _sy in sizes:
             r = _sx/bx*_sy/by  # cropping area / total area
-            nn = 0
+            nn = 0  # total cropped
             while nn < min(15, round(max(r, 1/r))):  # cropping smaller area, you need more images, but at least 15
                 sx, sy = _sx, _sy
                 if random.random() < .5:  # make cropping sizes stochastic, but not that different from the nominal sizes
