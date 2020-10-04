@@ -96,8 +96,8 @@ def work(id, start, end):
                         cropped_with_this_size += 1
                         continue
                     dx, dy = sx / 2 - bx / 2, sy / 2 - by / 2  # cropping box center - obj bbox center
-                    cropx = random.randrange(int(cx-.8*dx), int(cx+.8*dx))  # cropping box center
-                    cropy = random.randrange(int(cy-.8*dy), int(cy+.8*dy))
+                    cropx = random.randrange(int(cx-.8*dx), int(cx+.8*dx)+1)  # cropping box center
+                    cropy = random.randrange(int(cy-.8*dy), int(cy+.8*dy)+1)
                     cropx, cropy = fit_the_box(cropx, cropy, sx, sy)  # fit the cropping box in the image
                     
                     image = cv2.imread(str(image_path))
