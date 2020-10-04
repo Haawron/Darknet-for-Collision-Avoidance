@@ -117,6 +117,9 @@ def work(id, start, end):
                                 writer.writerow([4, *fit_the_box2((_cx-left)/sx, (_cy-top)/sy, _bx/sx, _by/sy)])
                     n += 1
                     cropped_with_this_size += 1
+            if i % 3 == 0:
+                print(f'Thread {id:02d}\t{i:2d}\t{(i+1)/(end-start):7.3%} done.')
+    print(f'Thread {id:02d} all done!')
 
 
 import psutil, threading
