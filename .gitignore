@@ -62,6 +62,8 @@ data/simulations/
 data/DBPAS_train/
 data/DBPAS_train2/
 data/DBPAS_train3/
+data/youtubes/
+data/samples/
 results/
 weights/
 *.zip
