@@ -67,8 +67,8 @@ def fit_the_box2(cx: float, cy: float, bx: float, by: float):  # resize the bbox
 
 
 def work(id, start, end):
+    print(f'Thread {id:02d} start: {start}, end: {end}, # {end-start}')
     for i, (image_path, label_path) in enumerate(zip(image_paths[start:end], label_paths[start:end])):  # for each image
-        print(f'Thread {id:02d} start: {start}, end: {end}, # {end-start}')
         
         n = 0
         with label_path.open() as label_file:
