@@ -7,6 +7,8 @@ import pandas as pd
 from pathlib import Path
 
 
+random.seed(20201005)
+
 DATA_DIR = 'data/youtubes'
 os.chdir(DATA_DIR)  # You need to chdir to data dir
 print('Changed to:', os.getcwd())
@@ -106,9 +108,9 @@ def work(id, start, end):
                     cropped = image[top:bottom, left:right]
                     
                     name = f'_c{n:02d}_o{j:02d}_{sx:.0f}x{sy:.0f}'
-                    cropped_image_path = image_path.with_name(image_path.name+name+'.jpg')
+                    cropped_image_path = image_path.with_name(image_path.stem+name+'.jpg')
                     cv2.imwrite(str(cropped_image_path), cropped)
-                    with cropped_image_path.with_name(label_path.name+name+'.txt').open('w', newline='') as f:
+                    with cropped_image_path.with_name(label_path.stem+name+'.txt').open('w', newline='') as f:
                         writer = csv.writer(f, delimiter=' ')
                         writer.writerow([4, (cx-left)/sx, (cy-top)/sy, bx/sx, by/sy])
                         for k, (_, _cx, _cy, _bx, _by) in enumerate(labels):
