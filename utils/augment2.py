@@ -119,13 +119,19 @@ def work(id, start, end):
                                 writer.writerow([4, *fit_the_box2((_cx-left)/sx, (_cy-top)/sy, _bx/sx, _by/sy)])
                     n += 1
                     cropped_with_this_size += 1
-            if i % 3 == 0:
-                print(f'Thread {id:02d}\t{i:2d}\t{(i+1)/(end-start):7.3%} done.')
+        if i % 3 == 0:
+            print(f'Thread {id:02d}\t{i:2d}\t{(i+1)/(end-start):7.3%} done.')
     print(f'Thread {id:02d} all done!')
 
 
-import psutil, threading
-perthread = -int(-total//psutil.cpu_count())  # ceil(total/cpu_cores)
-threads = [threading.Thread(target=work, args=(id, id*perthread, min(total, (id+1)*perthread))) for id in range(round(total/perthread+.5))]
-for thread in threads: thread.start()
-for thread in threads: thread.join()
+import psutil#, threading
+#perthread = -int(-total//psutil.cpu_count())  # ceil(total/cpu_cores)
+#threads = [threading.Thread(target=work, args=(id, id*perthread, min(total, (id+1)*perthread))) for id in range(round(total/perthread+.5))]
+#for thread in threads: thread.start()
+#for thread in threads: thread.join()
+
+from multiprocessing import Process
+perproc = -int(-total//psutil.cpu_count())  # ceil(total/cpu_cores)
+procs = [Process(target=work, args=(id, id*perproc, min(total, (id+1)*perproc))) for id in range(round(total/perproc+.5))]
+for proc in procs: proc.start()
+for proc in procs: proc.join()

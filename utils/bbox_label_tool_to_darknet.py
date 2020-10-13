@@ -34,8 +34,8 @@ print('Changed to:', os.getcwd())
 regex = re.compile(r'out(?P<num>\d+)')
 extract = lambda path: regex.search(str(path)).group('num')
 
-image_paths = list(Path('_images').rglob('*.jpg'))
-label_paths = list(Path('_labels').rglob('*.txt'))
+image_paths = sorted(list(Path('_images').rglob('*.jpg')))
+label_paths = sorted(list(Path('_labels').rglob('*.txt')))
 
 # label 파일에 뭐가 써있든 간에 일단 이미지마다 한 개의 label 파일이 있어야 함.
 for image, label in zip(image_paths, label_paths):
